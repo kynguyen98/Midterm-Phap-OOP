@@ -15,7 +15,7 @@ public class project extends JFrame implements ActionListener,MouseListener{
     JScrollPane tableResult;
     DefaultTableModel model;
 	JTable tb= new JTable(); 
-	JButton input,edit,exit,sort;
+	JButton input,edit,exit,sort,delete;
 	JPanel p1,p2;
 	public project(String s){
 		/*JFrame f = new JFrame("Student Management");
@@ -52,13 +52,17 @@ public class project extends JFrame implements ActionListener,MouseListener{
 			p1.setBounds(0,80,150,100);
 			//p2.setBorder(BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "List Student", TitledBorder.CENTER, TitledBorder.TOP));
 			input = new JButton("Input");
+			delete = new JButton("Delete");
 			edit = new JButton("Edit");
 			exit = new JButton ("Exit");
 			exit.addActionListener(this);
 			input.addActionListener(this);
+			edit.addActionListener(this);
+			delete.addActionListener(this);
 			p1.add(input);
 			p1.add(edit);
 			p1.add(exit);
+			p1.add(delete);
 			p1.setBackground(Color.gray);
 			this.add(p1);
 			this.add(p2);
@@ -81,6 +85,12 @@ public class project extends JFrame implements ActionListener,MouseListener{
 			System.exit(0);
 		if (e.getActionCommand().equals("Input"))
 			new form("Insert form",this,"","","0","0","0");
+		if (e.getActionCommand().equals("Edit")){
+			Vector st = (Vector)vData.elementAt(selectedrow);
+			new form("Edit form",this,(String)st.elementAt(0),(String)st.elementAt(1),(String)st.elementAt(2),(String)st.elementAt(3),(String)st.elementAt(4));
+		}
+		if (e.getActionCommand().equals("Delete"))
+			delete();
 	}
 	public void mouseClicked(MouseEvent e)
 {
@@ -109,6 +119,12 @@ public class project extends JFrame implements ActionListener,MouseListener{
 					  row.add(Data[i][j]);
 		 vData.add(row);
 		}
+	}
+	
+	public void delete(){
+		Vector st = (Vector)vData.elementAt(selectedrow);
+		vData.remove(selectedrow);
+		model.fireTableDataChanged();
 	}
 
 	public void insertList(String id, String name, float math, float phys, float chem, float aver){
@@ -228,8 +244,8 @@ public class project extends JFrame implements ActionListener,MouseListener{
 		public void actionPerformed(ActionEvent e){
 			if (e.getActionCommand().equals("Ok")){
 				insertDB();
-
 			}
+			else this.dispose();
 		}
 
 
@@ -248,10 +264,10 @@ public class project extends JFrame implements ActionListener,MouseListener{
 				float m =Float.parseFloat(math.getText());
 				float ph =Float.parseFloat(phys.getText());
 				float ch =Float.parseFloat(chem.getText());	
-				//if (this.getTitle().equals("Insert form"))
+				if (this.getTitle().equals("Insert form"))
 				mfr.insertList(id,na,m,ph,ch,(m+ph+ch)/3);
-			//else
-			//mfr.editList(id,na,m,ph,ch,(m+ph+ch)/3);
+			else
+			mfr.editList(id,na,m,ph,ch,(m+ph+ch)/3);
 			}
 		}
 
