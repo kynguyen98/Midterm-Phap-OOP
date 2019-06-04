@@ -19,14 +19,6 @@ class inputinterface1 extends Frame implements ActionListener{
         
         lb1 = new Label("Id");
         tx1 = new TextField();
-        tx1.addActionListener(new ActionListener(){
-        
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                String temp = tx1.getText();
-                id = Integer.parseInt(temp);
-            }
-        });
         this.add(lb1);
         this.add(tx1);
         ////int id = Integer.parseUnsignedInt(tx1.getText());
