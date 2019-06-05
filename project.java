@@ -28,11 +28,13 @@ public class project extends JFrame implements ActionListener,MouseListener{
 
 		try{
 			load();		
+
 			model = new DefaultTableModel(vData,vTitle);
-			//JFrame f = new JFrame();
+			JFrame f = new JFrame();
 			p1 = new JPanel();
 			p2 = new JPanel();
-			p1.setBounds(0,80,250,150);
+			p1.setBounds(0,80,150,100);
+			p2.setBounds(550,80,150,100);
 			//p2.setBorder(BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "List Student", TitledBorder.CENTER, TitledBorder.TOP));
 			input = new JButton("Input");
 			delete = new JButton("Delete");
@@ -48,12 +50,15 @@ public class project extends JFrame implements ActionListener,MouseListener{
 			p1.add(exit);
 			p1.add(delete);
 			p1.setBackground(Color.gray);
-			this.add(p1);
-			this.add(p2,BorderLayout.LINE_END);
-			tb = new JTable(model);
 			p2.add(new JScrollPane(tb));
-			this.setVisible(true);
-			this.setSize(550,500);
+			f.add(p1);
+			f.add(p2);
+			tb = new JTable(model);
+			f.setSize(550,500);
+			f.setLayout(null);
+			f.setVisible(true);
+
+
 
 		}catch(Exception e)
 		 {
