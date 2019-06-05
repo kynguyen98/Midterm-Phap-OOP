@@ -4,43 +4,26 @@ import java.awt.event.*;
 import java.awt.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.BorderFactory;
+import javax.swing.table.TableRowSorter;
+import javax.swing.table.TableModel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 public class project extends JFrame implements ActionListener,MouseListener{
-	int selectedrow=0;
-	String[] colums ={"ID","Name","Math","Phys","Chem","Aver"};
-	String[][] Data ={};
-
-	Vector vData=new Vector();
-    Vector vTitle=new Vector();	
-    JScrollPane tableResult;
-    DefaultTableModel model;
-	JTable tb= new JTable(); 
-	JButton input,edit,exit,sort,delete;
-	JPanel p1,p2;
+	private int selectedrow=0;
+	private String[] colums ={"ID","Name","Math","Phys","Chem","Aver"};
+	private String[][] Data ={};
+	private Vector vData=new Vector();
+    private Vector vTitle=new Vector();	
+    private JScrollPane tableResult;
+    private DefaultTableModel model;
+	private JTable tb= new JTable(); 
+	private TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tb.getModel());
+	private JButton input,edit,exit,sort,delete;
+	private JPanel p1,p2;
 	public project(String s){
-		/*JFrame f = new JFrame("Student Management");
-		p1 = new JPanel();
-		p2 = new JPanel();
-		p1.setBounds(0,80,150,100);
-		//p2.setBorder(BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "List Student", TitledBorder.CENTER, TitledBorder.TOP));
-		input = new JButton("Input");
-		edit = new JButton("Edit");
-		exit = new JButton ("Exit");
-		exit.addActionListener(this);
-		input.addActionListener(this);
-		p1.add(input);
-		p1.add(edit);
-		p1.add(exit);
-		p1.setBackground(Color.gray);
-		f.add(p1);
-		f.add(p2);
-		load();		
-		tb = new JTable(vData,vTitle);
-		p2.add(new JScrollPane(tb),"East");
-		//f.setLayout(null);
-		f.setVisible(true);
-		f.setSize(550,500);
-		*/
 		super(s);
 
 		try{
@@ -49,7 +32,7 @@ public class project extends JFrame implements ActionListener,MouseListener{
 			//JFrame f = new JFrame();
 			p1 = new JPanel();
 			p2 = new JPanel();
-			p1.setBounds(0,80,150,100);
+			p1.setBounds(0,80,250,150);
 			//p2.setBorder(BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "List Student", TitledBorder.CENTER, TitledBorder.TOP));
 			input = new JButton("Input");
 			delete = new JButton("Delete");
@@ -59,16 +42,16 @@ public class project extends JFrame implements ActionListener,MouseListener{
 			input.addActionListener(this);
 			edit.addActionListener(this);
 			delete.addActionListener(this);
+			//this.setLayout(new BorderLayout());
 			p1.add(input);
 			p1.add(edit);
 			p1.add(exit);
 			p1.add(delete);
 			p1.setBackground(Color.gray);
 			this.add(p1);
-			this.add(p2);
+			this.add(p2,BorderLayout.LINE_END);
 			tb = new JTable(model);
 			p2.add(new JScrollPane(tb));
-			//f.setLayout(null);
 			this.setVisible(true);
 			this.setSize(550,500);
 
