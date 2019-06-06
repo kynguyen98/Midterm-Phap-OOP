@@ -3,18 +3,20 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.BorderFactory;
 import javax.swing.table.TableRowSorter;
 import javax.swing.table.TableModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 public class project extends JFrame implements ActionListener,MouseListener{
 	private int selectedrow=0;
 	private String[] colums ={"ID","Name","Math","Phys","Chem","Aver"};
-	private String[][] Data ={};
+	private String[][] Data ={{"1","hcphap","8","9","7","8"},
+	{"2","ddtho","9","9","9","9"},
+	{"3","nvhung","8","9","10","9"},	
+	{"4","hhtung","8.5","9","9.5","9"},
+   };
 	private Vector vData=new Vector();
     private Vector vTitle=new Vector();	
     private JScrollPane tableResult;
@@ -22,38 +24,53 @@ public class project extends JFrame implements ActionListener,MouseListener{
 	private JTable tb= new JTable(); 
 	private TableRowSorter<TableModel> rowSorter = new TableRowSorter<>(tb.getModel());
 	private JButton input,edit,exit,sort,delete;
-	private JPanel p1,p2;
+	private JPanel p1,p2,p3,p4,p5;
+	private JTextField filter;
+	private JLabel lb;
 	public project(String s){
 		super(s);
 
 		try{
 			load();		
-			model = new DefaultTableModel(vData,vTitle);
-			//JFrame f = new JFrame();
+			JFrame f = new JFrame();
 			p1 = new JPanel();
-			p2 = new JPanel();
-			p1.setBounds(0,80,250,150);
-			//p2.setBorder(BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "List Student", TitledBorder.CENTER, TitledBorder.TOP));
-			input = new JButton("Input");
-			delete = new JButton("Delete");
+			p2 = new JPanel(new BorderLayout());
+			p3 = new JPanel(new BorderLayout());
+			p4 = new JPanel(new BorderLayout());
+			p5 = new JPanel(new BorderLayout());
+			//p1.setBorder(BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Options", TitledBorder.CENTER, TitledBorder.TOP));
+			p2.setBorder(BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "List Student", TitledBorder.CENTER, TitledBorder.TOP));
+			Icon inputicon = new ImageIcon("istockphoto-678479260-170x170.jpg");
+			Icon deletimg = new ImageIcon("button-orange-small-md.png");
+			input = new JButton(inputicon);
+			delete = new JButton(deletimg);
 			edit = new JButton("Edit");
 			exit = new JButton ("Exit");
+			filter = new JTextField();
+			lb = new JLabel("Specify a word ");
+			filter.setSize(410,401);
 			exit.addActionListener(this);
 			input.addActionListener(this);
 			edit.addActionListener(this);
 			delete.addActionListener(this);
-			//this.setLayout(new BorderLayout());
 			p1.add(input);
 			p1.add(edit);
 			p1.add(exit);
 			p1.add(delete);
 			p1.setBackground(Color.gray);
-			this.add(p1);
-			this.add(p2,BorderLayout.LINE_END);
+			p1.setLayout(new BoxLayout(p1,BoxLayout.Y_AXIS));
+			f.add(p1);
+;			model = new DefaultTableModel(vData,vTitle);
 			tb = new JTable(model);
-			p2.add(new JScrollPane(tb));
-			this.setVisible(true);
-			this.setSize(550,500);
+			tableResult = new JScrollPane(tb);
+			p3.add(lb,BorderLayout.LINE_START);
+			p3.add(filter);
+			p2.add(p3,BorderLayout.SOUTH);
+			tb.addMouseListener(this);
+			p2.add(tableResult);
+			f.add(p2,BorderLayout.LINE_END);
+			f.setVisible(true);
+			f.setSize(550,500);
 
 		}catch(Exception e)
 		 {
@@ -66,13 +83,13 @@ public class project extends JFrame implements ActionListener,MouseListener{
 	public void actionPerformed(ActionEvent e){
 		if (e.getActionCommand().equals("Exit"))
 			System.exit(0);
-		if (e.getActionCommand().equals("Input"))
+		if (e.getSource()==input)
 			new form("Insert form",this,"","","0","0","0");
 		if (e.getActionCommand().equals("Edit")){
 			Vector st = (Vector)vData.elementAt(selectedrow);
 			new form("Edit form",this,(String)st.elementAt(0),(String)st.elementAt(1),(String)st.elementAt(2),(String)st.elementAt(3),(String)st.elementAt(4));
 		}
-		if (e.getActionCommand().equals("Delete"))
+		if (e.getSource()==delete)
 			delete();
 	}
 	public void mouseClicked(MouseEvent e)
